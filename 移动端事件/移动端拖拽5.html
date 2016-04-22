@@ -16,6 +16,8 @@
             -ms-transition: all .5s;
             -o-transition: all .5s;
             transition: all .5s;
+            position:absolute;
+            left:0;
         }
     </style>
 </head>
@@ -28,6 +30,7 @@
         EventHandler.addHandler(oWrap,'touchend',function(e){
             var target = e.changedTouches[0];
             CssHandler.css(oWrap,'translateX',100);
+//            CssHandler.css(oWrap,'left',400);
             console.info(target);
         })
     }

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>幻灯效果</title>
+    <style>
+        body,ul{margin:0; padding:0;}
+        li{ list-style:none;}
+        a{ text-decoration: none;}
+        img{ vertical-align: top;}
+        .clear{ zoom:1;}
+        .clear:after{
+            conent:'';
+            display:block;
+            clear:both;
+        }
+        #wrap{
+            width:100%;
+            position:relative;
+        }
+        #wrap ul{
+            position:relative;
+            width:48rem;
+        }
+        #wrap ul li{
+            float:left;
+        }
+        img{
+            width:16rem;
+        }
+
+        ol{
+            position:absolute;
+            left:0;
+            right:0;
+            top:70px;
+            text-align:center;
+        }
+        ol li{
+            display:inline-block;
+            width:10px;
+            height:10px;
+            border-radius:5px;
+            background:rgba(255,255,255,.8)
+        }
+        ol li.active{
+            background:rgba(255,255,255,1);
+        }
+    </style>
+</head>
+<body>
+<section id="wrap">
+    <ul>
+        <li>
+            <a href="javascript:;">
+                <img src="../img/img1.jpg">
+            </a>
+        </li>
+        <li>
+            <a href="javascript:;">
+                <img src="../img/img2.jpg">
+            </a>
+        </li>
+        <li>
+            <a href="javascript:;">
+                <img src="../img/img3.jpg">
+            </a>
+        </li>
+    </ul>
+    <ol>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ol>
+</section>
+<script src="../MobileEvent.js"></script>
+<script>
+    window.onload = function(){
+        var oUl = document.querySelector('#wrap ul');
+        var oLi = document.querySelectorAll('ol li');
+        var start = { x : 0, y : 0};
+        var startOffset = { x : 0, y : 0};
+        var iWidth = oUl.children[0].offsetWidth;
+        /** 设置 ul 初始位置 */
+        CssHandler.css(oUl,'translateX', 0);
+        EventHandler.addHandler(oUl,'touchstart',function(e){
+            var target = e.changedTouches[0];
+            start.x = target.pageX;
+            startOffset.x = CssHandler.css(oUl,'translateX');
+        });
+
+        EventHandler.addHandler(oUl,'touchmove',function(e){
+            var target = e.changedTouches[0];
+            var curX = target.pageX;
+            var disX = curX - start.x;
+            oUl.style.webkitTransition = 'none';
+            oUl.style.transition = 'none';
+            CssHandler.css(oUl,'translateX',(disX+startOffset.x));
+        });
+
+        EventHandler.addHandler(oUl,'touchend',function(e){
+            var now = -Math.round(CssHandler.css(oUl,'translateX') / iWidth);
+//            console.info(now);
+            oUl.style.webkitTransition = '.5s';
+            oUl.style.transition = '.5s';
+
+            now = now < 0 ? 0 : now;
+            now = now > oLi.length -1 ? oLi.length - 1 : now;
+
+            /** 重新设置 oUl 的值 **/
+            CssHandler.css(oUl,'translateX',-iWidth * now);
+            for(var i=0;i<oLi.length;i++){
+                oLi[i].className = '';
+            }
+
+            oLi[now].className = 'active';
+        });
+    }
+</script>
+</body>
+</html>

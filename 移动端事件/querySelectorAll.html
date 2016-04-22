@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            margin:0;
+            padding:0;
+        }
+        #box{
+            width:200px;
+            height:200px;
+            margin:100px auto;
+            background:greenyellow;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <b>test</b>
+</div>
+<script src="../MobileEvent.js"></script>
+<script>
+    window.onload = function(){
+
+        var obj = mobile('#box');
+
+        obj.swipeLeft(function(){
+           this.style.background ='blue';
+        });
+        obj.swipeRight(function(){
+            this.style.background = 'red';
+        });
+//        console.info( document.querySelectorAll('html'));
+    }
+</script>
+</body>
+</html>
