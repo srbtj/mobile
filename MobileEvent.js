@@ -254,10 +254,6 @@ MobileEvent.prototype = {
 
         if(disX != 0 || disY != 0){
 
-            /** 点击事件 **/
-            if(this.tap){
-                this.tap.call(this.obj[index]);
-            }
             /** 移动事件**/
             if(this.swipe){
                 this.swipe.call(this.obj[index]);
@@ -278,6 +274,10 @@ MobileEvent.prototype = {
             if(disY > 10 && this.swipeBottom){
                 this.swipeBottom.call(this.obj[index]);
             }
+        }
+        /** 用户点击事件 **/
+        if(!this.obj[index].isMove && this.tap){
+            this.tap.call(this.obj[index]);
         }
     },
     tap : function(fn){
