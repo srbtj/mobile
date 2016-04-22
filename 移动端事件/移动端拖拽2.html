@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="viewport" content="width=device-width,user-scalable=no">
+    <title>移动端拖拽2</title>
+    <style>
+        body{
+            margin:0;
+            padding:0;
+        }
+        #wrap{
+            width:200px;
+            height:200px;
+            background:greenyellow;
+            position:absolute;
+            top:0;
+            left:0;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap"></div>
+<script src="./../MobileEvent.js"></script>
+<script>
+
+    window.onload = function(){
+        var oDiv = document.querySelector('#wrap');
+        var start = { x : 0, y : 0};
+        var startOffset = { x : 0, y : 0};
+
+        oDiv.addEventListener('touchstart',function(e){
+            var target = e.changedTouches[0];
+            start.x = target.pageX;
+            start.y = target.pageY;
+            startOffset.x = oDiv.offsetLeft;
+            startOffset.y = oDiv.offsetTop;
+        },false);
+        oDiv.addEventListener('touchmove',function(e){
+            var target = e.changedTouches[0];
+            var curX = target.pageX;
+            var curY = target.pageY;
+            var disX = curX - start.x;
+            var disY = curY - start.y;
+
+            oDiv.style.left = startOffset.x + disX + 'px';
+            oDiv.style.top = startOffset.y + disY + 'px';
+        },false)
+    }
+</script>
+</body>
+</html>

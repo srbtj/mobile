@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>移动端事件</title>
+    <style>
+        body{ margin:0px; padding:0px;}
+        #wrap{
+            width:200px;
+            height:200px;
+            background:greenyellow;
+        }
+    </style>
+    <script>
+
+        var oHtml = document.querySelector('html');
+        var oWidth = oHtml.getBoundingClientRect().width;
+        oHtml.style.fontSize = oWidth / 16 + 'px';
+    </script>
+</head>
+<body>
+<div id="wrap"></div>
+<script>
+
+
+    window.onload = function(){
+
+        var doc = document,
+                oDiv = doc.querySelector('#wrap');
+
+        oDiv.addEventListener('touchstart',function(e){
+            console.info('手指触摸开始',e);
+        },false);
+
+        oDiv.addEventListener('touchmove',function(){
+            console.info('手指移动');
+        },false);
+
+        oDiv.addEventListener('touchend',function(){
+            console.info('手指抬起');
+        },false)
+    }
+</script>
+</body>
+</html>

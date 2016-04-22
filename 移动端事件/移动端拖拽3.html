@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>移动端拖拽3</title>
+    <style>
+        body,p{
+            margin:0;
+            padding:0;
+        }
+        #wrap{
+            position:absolute;
+            left:0;
+            right:0;
+            top:0;
+            bottom:0;
+            background:greenyellow;
+        }
+
+        .box{
+            position:absolute;
+            left:0;
+            right:0;
+            top:0;
+
+        }
+    </style>
+</head>
+<body>
+<div id="wrap">
+    <div class="box"></div>
+</div>
+<script src="./../MobileEvent.js"></script>
+<script>
+    window.onload = function(){
+
+        /***
+         *
+         *  实现的效果:
+         *      拖动 wrap 来 改变 box 内的位置
+         *
+         */
+        var wrap = document.querySelector('#wrap');
+        var box = wrap.querySelector('.box');
+
+        var startY = 0;
+        var startTop = 0;
+
+        wrap.addEventListener('touchstart',function(e){
+            var target = e.changedTouches[0];
+            startY = target.pageY;
+            startTop = box.offsetTop;
+        },false);
+
+        wrap.addEventListener('touchmove',function(e){
+            var target = e.changedTouches[0];
+            var curY = target.pageY;
+            var disY = curY - startY;
+            box.style.top = disY + startTop + 'px';
+        },false);
+
+
+        createInfo();
+
+        function createInfo(){
+
+            for(var i=0;i<100;i++){
+
+                box.innerHTML += '<p>这是第' + (+i+1) + '个元素</p>';
+            }
+        }
+    }
+</script>
+</body>
+</html>

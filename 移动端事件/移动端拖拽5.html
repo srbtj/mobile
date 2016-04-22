@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>移动端拖拽-设置值</title>
+    <style>
+        body{ margin:0; padding:0;}
+        #wrap{
+            width:200px;
+            height:200px;
+            margin:100px auto;
+            background:greenyellow;
+            -webkit-transition: all .5s;
+            -moz-transition: all .5s;
+            -ms-transition: all .5s;
+            -o-transition: all .5s;
+            transition: all .5s;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap"></div>
+<script src="../MobileEvent.js"></script>
+<script>
+    window.onload = function(){
+        var oWrap = document.querySelector('#wrap');
+        EventHandler.addHandler(oWrap,'touchend',function(e){
+            var target = e.changedTouches[0];
+            CssHandler.css(oWrap,'translateX',100);
+            console.info(target);
+        })
+    }
+</script>
+</body>
+</html>

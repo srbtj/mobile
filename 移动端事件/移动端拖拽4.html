@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>移动端拖拽4</title>
+    <style>
+        #wrap{
+            width:100px;
+            height:100px;
+            padding:100px;
+            border:1px solid green;
+            margin:auto;
+        }
+        .box{
+            width:100px;
+            height:100px;
+            background:greenyellow;
+            color:#fff;
+            font:60px / 100px '宋体';
+            text-align:center;
+            -webkit-transition: all .5s;
+            transition: all .5s;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap">
+    <div class="box">上</div>
+</div>
+<script src="../MobileEvent.js"></script>
+<script>
+    window.onload = function(){
+
+        var oBox = document.querySelector('.box');
+
+        oBox.addEventListener('touchend',function(e){
+
+           oBox.style.webkitTransform = 'rotate(360deg)';
+           oBox.style.transform =  'rotate(360deg)';
+        });
+    }
+</script>
+</body>
+</html>

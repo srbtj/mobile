@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>移动端拖拽</title>
+    <style>
+        #box1{
+            width:200px;
+            height: 200px;
+            background:greenyellow;
+            font-size:1rem;
+            color:#fff;
+        }
+    </style>
+</head>
+<body>
+<div id="box1"></div>
+<script src="./../MobileEvent.js"></script>
+<script>
+    window.onload = function(){
+
+        var oDiv = document.querySelector('#box1');
+
+        oDiv.addEventListener('touchmove',function(e){
+            e.preventDefault();
+//            var target = e.touches;
+            console.info(e.touches, e.touches.length);
+            console.info(e.changedTouches.length);
+        },false);
+    }
+</script>
+</body>
+</html>
