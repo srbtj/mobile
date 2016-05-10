@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>图片轮播</title>
+    <style>
+        html,body{ height:100%; }
+        body,ul,ol{ margin:0; padding:0;}
+        .wrap{ width:100%; position:relative; height:100%; overflow:hidden;}
+        .wrap .list{ list-style:none; width:400%; height:100%;}
+        .wrap .list li{ float:left; width:25%; height:100%;}
+        .wrap .list li img{
+            vertical-align: top;
+            width:100%;
+            height:100%;
+        }
+        .wrap .nav{
+            position:absolute;
+            bottom:10px;
+            left:0;
+            right:0;
+            height: 20px;
+            text-align:center;
+        }
+        .wrap .nav a{
+            height:20px;
+            width:20px;
+            border-radius:10px;
+            background:rgba(255,255,255,.6);
+            margin:0 5px;
+            display:inline-block;
+        }
+        .wrap .nav a.active{
+            background:rgba(255,255,255,1);
+        }
+    </style>
+</head>
+<body>
+<section class="wrap">
+    <ul class="list">
+        <li><img src="../img/page3.jpg"></li>
+        <li><img src="../img/page3_2.jpg"></li>
+        <li><img src="../img/page3_3.jpg"></li>
+        <li><img src="../img/page3_4.jpeg"></li>
+    </ul>
+    <div class="nav">
+        <a href="javascript:;" class="active"></a>
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+    </div>
+</section>
+<script src="../MobileEvent.js"></script>
+<script>
+    window.onload = function(){
+        /** 向现有的ul中追加所有的li ,主要目的 : 实现无逢滚动 **/
+        var oUl = document.querySelector('ul');
+        var uLi = oUl.getElementsByTagName('li');
+        var liWidth = uLi[0].offsetWidth;
+        var navs = document.querySelectorAll('.nav > a');
+        var len = navs.length;
+        /** 设置 ul 初始化位置 **/
+        CssHandler.css(oUl,'translateX',0);
+        /** 追加 li 并重新计算 ul 宽度 **/
+        oUl.innerHTML += oUl.innerHTML;
+        oUl.style.width = uLi.length + '00%';
+        for(var i=0;i<uLi.length;i++){ /** 重新计算 li 宽度 */
+            uLi[i].style.width = document.body.clientWidth + 'px';
+        }
+        var iNow = 0;
+        var startPageX = 0, startX = 0;
+        EventHandler.addHandler(oUl,'touchstart',function(e){
+            e.preventDefault();
+            oUl.style.transition = 'none';
+            /**
+             *  当用户按下去时 ,如果是第一组第0个元素,那这回用户如果向右拖 就会出去  这时要做处理
+             *  解决方法 : 把元素同步到第二组的第0个元素 那么这回不管用户是向左还是向右拖都有对就的元素,而不会出现空白
+             * **/
+            if(iNow === 0){
+                iNow = len;
+                CssHandler.css(oUl,'translateX',-iNow*liWidth);
+            }
+            /***
+             *  当用户按下去时 是最后一个(第二组的最后一个)元素,那这回用户如果向左拖的话就会出去
+             *  解决方法 : 把元素同步到第1组的最后一个元素,那这回不管用户是向左还是向右拖都不会出现空白
+             */
+            if(iNow === uLi.length - 1){
+                iNow = len - 1;
+                CssHandler.css(oUl,'translateX',-iNow * liWidth);
+            }
+            var target = e.changedTouches[0];
+            startPageX = target.pageX;
+            startX = CssHandler.css(oUl,'translateX');
+        });
+        EventHandler.addHandler(oUl,'touchmove',function(e){
+            var target = e.changedTouches[0];
+            var nowPageX = target.pageX;
+            var dis = nowPageX - startPageX;
+            CssHandler.css(oUl,'translateX',startX + dis);
+        });
+        EventHandler.addHandler(oUl,'touchend',function(e){
+            var translate = CssHandler.css(oUl,'translateX');
+            iNow = Math.round(-translate / liWidth);
+            oUl.style.transition = '.5s';
+            CssHandler.css(oUl,'translateX',-iNow * liWidth);
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>图片轮播</title>
+    <style>
+        html,body{ height:100%; }
+        body,ul,ol{ margin:0; padding:0;}
+        .wrap{ width:100%; position:relative; height:100%; overflow:hidden;}
+        .wrap .list{ list-style:none; width:400%; height:100%;}
+        .wrap .list li{ float:left; width:25%; height:100%;}
+        .wrap .list li img{
+            vertical-align: top;
+            width:100%;
+            height:100%;
+        }
+        .wrap .nav{
+            position:absolute;
+            bottom:10px;
+            left:0;
+            right:0;
+            height: 20px;
+            text-align:center;
+        }
+        .wrap .nav a{
+            height:20px;
+            width:20px;
+            border-radius:10px;
+            background:rgba(255,255,255,.6);
+            margin:0 5px;
+            display:inline-block;
+        }
+        .wrap .nav a.active{
+            background:rgba(255,255,255,1);
+        }
+    </style>
+</head>
+<body>
+<section class="wrap">
+    <ul class="list">
+        <li><img src="../img/page3.jpg"></li>
+        <li><img src="../img/page3_2.jpg"></li>
+        <li><img src="../img/page3_3.jpg"></li>
+        <li><img src="../img/page3_4.jpeg"></li>
+    </ul>
+    <div class="nav">
+        <a href="javascript:;" class="active"></a>
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+    </div>
+</section>
+<script src="../MobileEvent.js"></script>
+<script>
+    window.onload = function(){
+        var oUl = document.querySelector('.list');
+        var oLi = oUl.getElementsByTagName('li');
+        var liWidth = oLi[0].offsetWidth;
+        oUl.innerHTML += oUl.innerHTML;
+        CssHandler.css(oUl,'translateX',0);
+        /** 设置 ul li 宽度 */
+        oUl.style.width = oLi.length + '00%';
+        for(var i= 0,len=oLi.length;i<len;i++){
+            oLi[i].style.width = document.body.clientWidth + 'px';
+        }
+        /** nav */
+        var navs = document.querySelectorAll('.nav > a');
+        var startPageX = 0, startX = 0;
+        var iNow = 0;
+        oUl.addEventListener('touchstart',function(e){
+            oUl.style.transition = 'none';
+            if(iNow == 0){
+                iNow = navs.length;  /** 第二组第一张 */
+            }
+            if(iNow == oLi.length-1){
+                iNow = navs.length-1; /** 第一组最后一张 **/
+            }
+            CssHandler.css(oUl,'translateX',-iNow * liWidth);
+            startPageX = e.changedTouches[0].pageX;
+            startX = CssHandler.css(oUl,'translateX');
+        },false);
+        oUl.addEventListener('touchmove',function(e){
+            var nowPageX = e.changedTouches[0].pageX;
+            var dis = nowPageX - startPageX;
+            CssHandler.css(oUl,'translateX',dis + startX);
+        },false);
+        oUl.addEventListener('touchend',function(e){
+            oUl.style.transition = '.3s';
+            var translate = CssHandler.css(oUl,'translateX');
+            /** 计算拖动到哪一个了**/
+            iNow = Math.round(-translate/liWidth);
+            CssHandler.css(oUl,'translateX',-iNow*liWidth);
+
+            for(var i=0;i<navs.length;i++){
+                navs[i].className = '';
+            }
+            navs[iNow%4].className = 'active';
+        },false)
+    }
+</script>
+</body>
+</html>

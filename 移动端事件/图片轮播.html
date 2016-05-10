@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>图片轮播</title>
+    <style>
+        html,body{ height:100%; }
+        body,ul,ol{ margin:0; padding:0;}
+        .wrap{ width:100%; position:relative; height:100%; overflow:hidden;}
+        .wrap .list{ list-style:none; width:400%; height:100%;}
+        .wrap .list li{ float:left; width:25%; height:100%;}
+        .wrap .list li img{
+            vertical-align: top;
+            width:100%;
+            height:100%;
+        }
+        .wrap .nav{
+            position:absolute;
+            bottom:10px;
+            left:0;
+            right:0;
+            height: 20px;
+            text-align:center;
+        }
+        .wrap .nav a{
+            height:20px;
+            width:20px;
+            border-radius:10px;
+            background:rgba(255,255,255,.6);
+            margin:0 5px;
+            display:inline-block;
+        }
+        .wrap .nav a.active{
+            background:rgba(255,255,255,1);
+        }
+    </style>
+    <!-- 阻止默认行为 -->
+    <script>
+        document.addEventListener('touchmove',function(e){e.preventDefault();},false)
+    </script>
+</head>
+<body>
+    <section class="wrap">
+        <ul class="list">
+            <li><img src="../img/page3.jpg"></li>
+            <li><img src="../img/page3_2.jpg"></li>
+            <li><img src="../img/page3_3.jpg"></li>
+            <li><img src="../img/page3_4.jpeg"></li>
+        </ul>
+        <div class="nav">
+            <a href="javascript:;" class="active"></a>
+            <a href="javascript:;"></a>
+            <a href="javascript:;"></a>
+            <a href="javascript:;"></a>
+        </div>
+    </section>
+    <script src="../MobileEvent.js"></script>
+    <script>
+        window.onload = function(){
+            /** 向 ul 中追回第一个li,主要目的 : 实现无逢滚动 **/
+            var oUl = document.querySelector('ul');
+            var uLi = oUl.getElementsByTagName('li');
+            var liWidth = uLi[0].offsetWidth;
+            var newLi = document.createElement('li');
+            newLi.innerHTML = uLi[0].innerHTML;
+            oUl.appendChild(newLi);
+            /** 设置 ul, li宽度 */
+            oUl.style.width = uLi.length + '00%';
+            for(var i= 0,len=uLi.length;i<len;i++){
+
+                uLi[i].style.width = document.body.clientWidth + 'px';
+            }
+
+            /** 设置 oUl 初始 transitionX 位置 **/
+            CssHandler.css(oUl,'translateX',0);
+
+            /** 获取 ol 下的 li **/
+            var navs = document.querySelectorAll('.nav >  a');
+            var len = navs.length;
+            var iNow = 0;
+
+            /***
+             *  startPageX : ul 在页面中的初始位置
+             *  startX : 鼠标的位置
+             * **/
+            mobile('.list').swipeLeft(function(){
+                /** 当当前元素为最后一个元素时 跳转至第一个  **/
+                if(iNow === len){
+                    iNow = 0;
+                    oUl.style.transition = 'none';
+                    CssHandler.css(oUl,'translateX',-iNow * liWidth);
+                    setTimeout(function(){
+                        iNow++;
+                        oUl.style.transition = '.3s';
+                        CssHandler.css(oUl,'translateX',-iNow * liWidth);
+                    },100);
+                }else{
+                    iNow++;
+                    oUl.style.transition = '.4s';
+                    CssHandler.css(oUl,'translateX',-iNow * liWidth);
+                }
+            });
+            mobile('.list').swipeRight(function(){
+                /** 当当元素为第一个时  跳转至第一个 */
+                if(iNow == 0){
+                    iNow = len;
+                    oUl.style.transition = 'none';
+                    CssHandler.css(oUl,'translateX',-iNow * liWidth);
+                    setTimeout(function(){
+                        iNow--;
+                        oUl.style.transition = '.3s';
+                        CssHandler.css(oUl,'translateX',-iNow * liWidth);
+                    },100);
+                }else{
+                    iNow--;
+                    oUl.style.transition = '.4s';
+                    CssHandler.css(oUl,'translateX',-iNow * liWidth);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

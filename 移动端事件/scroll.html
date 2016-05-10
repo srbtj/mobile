@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>Scroll事件</title>
+    <style>
+        body,ul{ margin:0; padding:0;}
+        .list{
+            list-style: none;
+        }
+        .list li{
+            line-height:40px;
+            font-size : 20px;
+            border-bottom: 1px solid green;
+            text-indent : 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap">
+    <ul class="list"></ul>
+</div>
+<script src="../MobileEvent.js"></script>
+<script>
+    window.onload = function(){
+        new MobileEvent();
+        var wrap = document.querySelector('#wrap');
+        var oUl = document.querySelector('.list');
+        setLayout();
+        function setLayout(){
+            var str = '';
+            for(var i=0;i<100;i++){
+                str += '<li>第'+i+'个元素</li>'
+            }
+            oUl.innerHTML = str;
+        };
+        var Scroll = new MScroll({
+            element : wrap
+        })
+    };
+</script>
+</body>
+</html>

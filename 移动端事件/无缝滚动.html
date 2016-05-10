@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>图片无逢滚动</title>
+    <link href="../css/play.css" rel="stylesheet">
+    <style>
+        body,ul{
+            margin:0;
+            padding:0;
+        }
+        .auto-play{
+            position:relative;
+            margin:100px auto;
+            width:500px;
+            height:300px;
+            border:1px solid green;
+        }
+        .auto-play .item-list{
+            position:absolute;
+            left:0;
+            top:0;
+        }
+
+        .auto-play .item-list li{
+            width:500px;
+            height:300px;
+            float:left
+        }
+
+    </style>
+</head>
+<body>
+<section id="wrap">
+    <div class="auto-play">
+        <ul class="item-list">
+            <li>
+                <img src="../img/page3.jpg">
+            </li>
+            <li>
+                <img src="../img/page3_2.jpg">
+            </li>
+            <li>
+                <img src="../img/page3_3.jpg">
+            </li>
+            <li>
+                <img src="../img/page3_4.jpeg">
+            </li>
+        </ul>
+        <span class="btn-left"> < </span>
+        <span class="btn-right"> > </span>
+    </div>
+</section>
+<script src="../MobileEvent.js"></script>
+<script>
+
+    window.onload = function(){
+
+//        var oHtml = mobile('html');
+//        oHtml.setHtmlSize();
+//        var obj = oHtml.getScreenInfo();
+//        var width = obj.width;
+//        var height = obj.height;
+//        var oUl = document.querySelector('.item-list');
+//        var oLi = document.querySelectorAll('.item-list li');
+//
+//        setLiWidth();
+//
+//        function setLiWidth(){
+//            for(var i=0;i<oLi.length; i++){
+//                oLi[i].style.width = width + 'px';
+//                oLi[i].style.height = height + 'px';
+//            }
+//        }
+//
+//        oUl.style.width = width * oLi.length + 'px';
+
+        var oUl = document.querySelector('.item-list');
+        var oLi = oUl.getElementsByTagName('li');
+        var width = oLi[0].offsetWidth;
+        var len = oLi.length;
+        var lSpan = document.querySelector('.btn-left');
+        var rSpan = document.querySelector('.btn-right');
+
+
+
+
+
+    }
+</script>
+</body>
+</html>

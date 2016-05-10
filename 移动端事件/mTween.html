@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>MTween</title>
+    <style>
+        body{ margin:0; padding:0;}
+        #wrap{
+            width:100px;
+            height:100px;
+            border:1px solid green;
+            background:greenyellow;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap"></div>
+<script src="../MobileEvent.js"></script>
+<script>
+    window.onload = function(){
+        var wrap = document.querySelector('#wrap');
+        EventHandler.addHandler(wrap,'click',function(e){
+
+            startMove(this,'width',300,800,'backOut');
+        });
+
+        function startMove(ele,attr,target,time,type){
+
+            var t = 0,b = parseInt( CssHandler.css(ele,attr) ),c = target - b, d = time / 20;
+
+            ele.timer = setInterval(function(){
+                t++;
+                if(t>=d){
+                    clearInterval(ele.timer);
+                }
+
+                var val = Tween[type](t,b,c,d);
+                CssHandler.css(ele,attr,val);
+            },20)
+        }
+    }
+</script>
+</body>
+</html>
